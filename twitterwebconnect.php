@@ -1,18 +1,18 @@
 <?php
 /*********************************************************************************************************/
-/** Twitter Web Connector																				**/
-/** Manages Oauth Authentication and Merges Multiple Requests To Twitter Search API 					**/
-/** Author Alex Ross 																					**/
-/** Version 1.0                               															**/
+/** Twitter Web Connector										**/										**/
+/** Manages Oauth Authentication To Twitter Search API 							**/
+/** Author Alex Ross 											**/										**/
+/** Version 1.0                               								**/							**/
 /*********************************************************************************************************/
 require_once("TwitterAPIExchange.php");
 
 /** Set access tokens here - see: https://dev.twitter.com/apps/ **/
 $settings = array(
-    "oauth_access_token" => "",
-    "oauth_access_token_secret" => "",
-    "consumer_key" => "",
-    "consumer_secret" => ""
+    "oauth_access_token" => "ENTER YOUR OAUTH ACCESS TOKEN",
+    "oauth_access_token_secret" => "ENTER YOUR OAUTH ACCESS TOKEN SECRET",
+    "consumer_key" => "ENTER YOUR CONSUMER KEY",
+    "consumer_secret" => "ENTER YOUR CONSUMER SECRET"
 );
  
 $url = "https://api.twitter.com/1.1/search/tweets.json";
