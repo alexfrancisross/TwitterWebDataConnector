@@ -45,7 +45,7 @@ function shutdown() {
  
 function getColumnHeaders() {
   var fieldNames = ['Status Text', 'Status ID', 'Favourite Count', 'Language', 'Retweet Count', 'Source', 'Username', 'User ID', 'User Description','User Followers Count','User Profile Image Url','User Screen Name','User Time Zone', 'User Location', 'User Url', 'User Statuses Count', 'Longitude', 'Latitude', 'User Time Zone Country','Created At Date Time'];
-  var fieldTypes = ['string', 'string', 'float', 'string', 'float' , 'string', 'string','string','string','float','string','string','string','string','string','float','float','float', 'string','string'];
+  var fieldTypes = ['string', 'string', 'float', 'string', 'float' , 'string', 'string','string','string','float','string','string','string','string','string','float','float','float', 'string','date'];
   tableau.headersCallback(fieldNames, fieldTypes); // tell tableau about the fields and their types
 }
 
@@ -59,17 +59,6 @@ function GetTimeZoneCountry(UserTimeZone)
 	var index = TimeZones.indexOf(UserTimeZone);
 	var Country = Countries[index];
 	return Country;
-}
-
-//Takes Twitter CreatedAt DateTime and Returns Friendly Format For Tableau
-function GetCreatedAtDateTime(CreatedAt)
-{
-	var CreatedAtArray = CreatedAt.split(' ');
-	var Month = CreatedAtArray[1];
-	var Day = CreatedAtArray[2];
-	var Year = CreatedAtArray[5];
-	var Time = CreatedAtArray[3];
-	return Month + ' ' + Day + ', ' + Year + ' ' + Time;
 }
 
 //Format Twitter Source Field To Get Just The Name Of The Source
@@ -136,10 +125,7 @@ function getTableData(lastRecordNumber) {
 			  //Convert Twitter Time Zone To A Country For Mapping
 			  var UserTimeZone = statuses[ii].user.time_zone;
 			  var UserTimeZoneCountry = GetTimeZoneCountry(UserTimeZone);
-			  
-			  //Convert CreatedAt DateTime into friendly format
-			  var CreatedAtDateTime = GetCreatedAtDateTime(statuses[ii].created_at);
-			  
+			  		  
 			  //Cleanup Source Name
 			  var Source;
 			  if(statuses[ii].source)
@@ -167,7 +153,7 @@ function getTableData(lastRecordNumber) {
 						   'Longitude': longitude,
 						   'Latitude': latitude,
 						   'User Time Zone Country': UserTimeZoneCountry,
-						   'Created At Date Time': CreatedAtDateTime
+						   'Created At Date Time': new Date(statuses[ii].created_at)
 						   };
               toRet.push(entry);
 			  //console.log(entry);
