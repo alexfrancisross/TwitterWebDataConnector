@@ -1,18 +1,18 @@
 <?php
 /*********************************************************************************************************/
-/** Twitter Web Connector										**/										**/
-/** Manages Oauth Authentication To Twitter Search API 							**/
-/** Author Alex Ross 											**/										**/
-/** Version 1.0                               								**/							**/
+/** Twitter Web Connector																				**/
+/** Manages Oauth Authentication and Merges Multiple Requests To Twitter Search API 					**/
+/** Author Alex Ross 																					**/
+/** Version 1.0                               															**/
 /*********************************************************************************************************/
 require_once("TwitterAPIExchange.php");
 
 /** Set access tokens here - see: https://dev.twitter.com/apps/ **/
 $settings = array(
-    "oauth_access_token" => "ENTER YOUR OAUTH ACCESS TOKEN",
-    "oauth_access_token_secret" => "ENTER YOUR OAUTH ACCESS TOKEN SECRET",
-    "consumer_key" => "ENTER YOUR CONSUMER KEY",
-    "consumer_secret" => "ENTER YOUR CONSUMER SECRET"
+    "oauth_access_token" => "2893911603-hsA4epq68AaVTPca8Sfcexanbm0nmOJKoiXKnNv",
+    "oauth_access_token_secret" => "LpOC6ybRmzKeADIiIfuEJN38sSxsu7EnsggrVhLXQejaC",
+    "consumer_key" => "bWpHemFYCVNPH9pl4BUgEUklN",
+    "consumer_secret" => "kNdppRwWCM8XMFm4LWYUqLJoxt8SZBDH9Xg8VVuJANV0xzb12V"
 );
  
 $url = "https://api.twitter.com/1.1/search/tweets.json";
@@ -56,10 +56,17 @@ if (isset($_GET['include_entities'])) {
     // Fallback behaviour goes here
 	$include_entities="1";
 }
+/** Get include_entities From Query String **/
+if (isset($_GET['tweet_mode'])) {
+    $include_entities = $_GET['tweet_mode'];
+}else{
+    // Fallback behaviour goes here
+	$tweet_mode="extended";
+}
  
  /** Get Request From Twitter Search API **/
 $requestMethod = "GET";
-$getfield = "?q=" . urlencode($q) . "&count=" . $count . "&result_type=" . $result_type . "&max_id=" . $max_id . "&include_entities=" . $include_entities;
+$getfield = "?q=" . urlencode($q) . "&count=" . $count . "&result_type=" . $result_type . "&max_id=" . $max_id . "&include_entities=" . $include_entities . "&tweet_mode=" .$tweet_mode;
 $twitter = new TwitterAPIExchange($settings);
 $json= $twitter->setGetfield($getfield)
              ->buildOauth($url, $requestMethod)

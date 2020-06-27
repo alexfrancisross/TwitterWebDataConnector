@@ -1,0 +1,9 @@
+.section{ min-height: 100%;
+		  max-width: 850px;
+		  padding-top: 55px;
+		  margin:auto;
+		}
+
+.centre { text-align:center;}
+
+.button-margin { margin-top:30px;}
